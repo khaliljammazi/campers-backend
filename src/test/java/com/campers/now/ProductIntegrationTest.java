@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ProductIntegrationTest {
+ class ProductIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -24,7 +24,7 @@ public class ProductIntegrationTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void testCreateAndGetProduct() throws Exception {
+     void testCreateAndGetProduct() throws Exception {
         Product product = new Product();
         product.setMatricule("PROD001");
         product.setName("Sample Product");

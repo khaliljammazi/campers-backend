@@ -14,6 +14,8 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
+    private static final String PRODUCT_NOT_FOUND = "Product not found";
+
     @Override
     public List<Product> getAll() {
         return productRepository.findAll();
@@ -25,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
         if (optionalProduct.isPresent()) {
             return optionalProduct.get();
         } else {
-            throw new IllegalArgumentException("Product not found");
+            throw new IllegalArgumentException(PRODUCT_NOT_FOUND);
         }
     }
 
@@ -56,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
 
             return productRepository.save(existingProduct);
         } else {
-            throw new IllegalArgumentException("Product not found");
+            throw new IllegalArgumentException(PRODUCT_NOT_FOUND);
         }
     }
 
@@ -68,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.delete(product);
             return product;
         } else {
-            throw new IllegalArgumentException("Product not found");
+            throw new IllegalArgumentException(PRODUCT_NOT_FOUND);
         }
 
     }

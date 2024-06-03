@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class CommandTest {
+class CommandTest {
 
     @Mock
     private CommandRepository commandRepository;
@@ -27,7 +27,7 @@ public class CommandTest {
     private CommandServiceImpl commandService;
 
     @Test
-    public void testGetCommandById() {
+     void testGetCommandById() {
         int id = 1;
         Command expectedCommand = new Command();
         expectedCommand.setId(id);
@@ -41,7 +41,7 @@ public class CommandTest {
 
 
     @Test
-    public void testCreateCommand() {
+     void testCreateCommand() {
         Command commandToCreate = new Command();
         List<ProductCommand> productCommands = new ArrayList<>();
         commandToCreate.setProductCommands(productCommands);
@@ -55,7 +55,7 @@ public class CommandTest {
     }
 
     @Test
-    public void testUpdateCommand_ExistingId() {
+     void testUpdateCommand_ExistingId() {
         int id = 1;
         Command updatedCommand = new Command();
 
@@ -68,7 +68,7 @@ public class CommandTest {
     }
 
     @Test
-    public void testUpdateCommand_NonExistingId() {
+     void testUpdateCommand_NonExistingId() {
         int id = 1;
 
         when(commandRepository.findById(id)).thenReturn(Optional.empty());
@@ -79,7 +79,7 @@ public class CommandTest {
     }
 
     @Test
-    public void testDeleteCommand() {
+     void testDeleteCommand() {
         int id = 1;
 
         commandService.deleteCommand(id);

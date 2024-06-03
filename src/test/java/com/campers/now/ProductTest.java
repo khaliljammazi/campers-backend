@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @SpringBootTest
-public class ProductTest {
+ class ProductTest {
 
     private MockMvc mockMvc;
 
@@ -36,7 +36,7 @@ public class ProductTest {
     }
 
     @Test
-    public void testAddProduct() throws Exception {
+    void testAddProduct() throws Exception {
         Product product = new Product();
 
         when(productService.add(any(Product.class))).thenReturn(product);
@@ -48,7 +48,7 @@ public class ProductTest {
     }
 
     @Test
-    public void testUpdateProduct() throws Exception {
+     void testUpdateProduct() throws Exception {
         Product product = new Product(); // create a product instance
 
         when(productService.update(1, product)).thenReturn(product);
@@ -60,7 +60,7 @@ public class ProductTest {
     }
 
     @Test
-    public void testGetOneProduct() throws Exception {
+     void testGetOneProduct() throws Exception {
         Product product = new Product();
 
         when(productService.getById(1)).thenReturn(product);
@@ -70,7 +70,7 @@ public class ProductTest {
     }
 
     @Test
-    public void testGetAllProducts() throws Exception {
+     void testGetAllProducts() throws Exception {
         when(productService.getAll()).thenReturn(Collections.emptyList());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products"))
@@ -78,7 +78,7 @@ public class ProductTest {
     }
 
     @Test
-    public void testDeleteProduct() throws Exception {
+     void testDeleteProduct() throws Exception {
         Product product = new Product();
 
         when(productService.delete(1)).thenReturn(product);
