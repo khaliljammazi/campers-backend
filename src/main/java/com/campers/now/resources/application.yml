@@ -2,12 +2,12 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info,prometheus
+      base-path: /actuator
+      path-mapping:
+        prometheus: /metrics
   endpoint:
     prometheus:
       enabled: true
-  management:
-    endpoints:
-      web:
-        exposure:
-          include: [ "prometheus" ]
+    health:
+      show-details: always
