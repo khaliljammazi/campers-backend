@@ -62,5 +62,7 @@ class CampingCenterServiceImplTest {
 
         // verify that the camping center was added
         assertNotNull(campingCenterAdded.getId());
+        //delete the camping center
+        campingCenterRepository.delete(campingCenterAdded);
     }
 }
