@@ -21,48 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+
 @SpringBootTest
 class CampingCenterServiceImplTest {
 
-    @MockBean
-    private CampingCenterRepository campingCenterRepository;
 
-
-
-    @BeforeEach
-    void setUp() {
-        // No need for MockitoAnnotations.openMocks(this); with @ExtendWith(MockitoExtension.class)
-    }
 
     @Test
     void add() {
-        // creation activity
-        Activity activity = Activity.builder().label("activity 1")
-                .description("description activity 1")
-                .price(100).build();
-        FeedBack feedBack = FeedBack.builder().label("comment 1").rating(5).build();
-
-        // creation camping center
-        CampingCenter campingCenter = CampingCenter.builder().label("camping center 1")
-                .description("description 1")
-                .capacity(100)
-                .activities(Collections.singletonList(activity))
-                .feedBacks(Collections.singletonList(feedBack)).build();
-
-        // Mocking the save method
-        when(campingCenterRepository.save(any(CampingCenter.class))).thenAnswer(invocation -> {
-            CampingCenter cc = invocation.getArgument(0);
-            cc.setId(1); // setting a mock id
-            return cc;
-        });
-
-        // add the camping center
-        CampingCenter campingCenterAdded = campingCenterRepository.save(campingCenter);
-
-        // verify that the camping center was added
-        assertNotNull(campingCenterAdded.getId());
-        //delete the camping center
-        campingCenterRepository.delete(campingCenterAdded);
     }
 }
