@@ -3,6 +3,7 @@ package com.campers.now.services.Impl;
 import com.campers.now.models.Activity;
 import com.campers.now.models.CampingCenter;
 import com.campers.now.models.FeedBack;
+import com.campers.now.models.Reservation;
 import com.campers.now.repositories.ActivityRepository;
 import com.campers.now.repositories.CampingCenterRepository;
 import com.campers.now.repositories.FeedBackRepository;
@@ -17,11 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,17 +37,94 @@ class CampingCenterServiceImplTest {
     private CampingCenterRepository campingCenterRepository;
 
     @MockBean
-    private ActivityRepository activityRepository;
-
-    @MockBean
-    private FeedBackRepository feedBackRepository;
+    private ReservationServiceImpl reservationService;
 
     @InjectMocks
     private CampingCenterServiceImpl campingCenterService;
 
+    private CampingCenter campingCenter1;
+    private CampingCenter campingCenter2;
+
+    private Reservation reservation1;
+    private Reservation reservation2;
+    private Reservation reservation3;
+
     @BeforeEach
     void setUp() {
-        // No need for MockitoAnnotations.openMocks(this); with @ExtendWith(MockitoExtension.class)
+        // Set up mock data for reservations
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(2023, Calendar.JUNE, 1);
+        Date startDate1 = calendar.getTime();
+        calendar.set(2023, Calendar.JUNE, 10);
+        Date endDate1 = calendar.getTime();
+
+        calendar.set(2023, Calendar.JULY, 1);
+        Date startDate2 = calendar.getTime();
+        calendar.set(2023, Calendar.JULY, 15);
+        Date endDate2 = calendar.getTime();
+
+        reservation1 = Reservation.builder()
+                .numberReserved(10)
+                .isActive(true)
+                .totalAmount(1000)
+                .dateStart(startDate1)
+                .dateEnd(endDate1)
+                .build();
+
+        reservation2 = Reservation.builder()
+                .numberReserved(5)
+                .isActive(true)
+                .totalAmount(1500)
+                .dateStart(startDate2)
+                .dateEnd(endDate2)
+                .build();
+
+        campingCenter1 = CampingCenter.builder()
+                .capacity(100)
+                .reservations(Arrays.asList(reservation1, reservation2))
+                .build();
+
+        calendar.set(2023, Calendar.AUGUST, 1);
+        Date startDate3 = calendar.getTime();
+        calendar.set(2023, Calendar.AUGUST, 20);
+        Date endDate3 = calendar.getTime();
+
+        reservation3 = Reservation.builder()
+                .numberReserved(20)
+                .isActive(true)
+                .totalAmount(3000)
+                .dateStart(startDate3)
+                .dateEnd(endDate3)
+                .build();
+
+        campingCenter2 = CampingCenter.builder()
+                .capacity(200)
+                .reservations(Collections.singletonList(reservation3))
+                .build();
+    }
+
+    @Test
+    void calculateOccupancyRate() {
+        // Mock the repository method
+        when(campingCenterRepository.findAll()).thenReturn(Arrays.asList(campingCenter1, campingCenter2));
+
+        // Calculate occupancy rate
+        double[] occupancyRates = campingCenterService.calculateOccupancyRate();
+
+        // Expected values
+        double totalCapacity = 300;
+        double totalOccupiedSpaces = 35;
+        double occupancyRate = totalOccupiedSpaces / totalCapacity * 100;
+        double unoccupiedSpacesPercent = 100 - occupancyRate;
+
+        double[] expectedRates = {
+                Math.round(unoccupiedSpacesPercent * 100.0) / 100.0,
+                Math.round(occupancyRate * 100.0) / 100.0
+        };
+
+        // Verify the results
+        assertArrayEquals(expectedRates, occupancyRates);
     }
 
     @Test
@@ -96,6 +178,21 @@ class CampingCenterServiceImplTest {
 
         // Mock the delete method for CampingCenterRepository
         campingCenterRepository.delete(campingCenterAdded);
+    }
+
+    @Test
+    void calculateRevenuePerOccupiedSpace() {
+        // Mock the reservation service method
+        when(reservationService.getAll()).thenReturn(Arrays.asList(reservation1, reservation2, reservation3));
+
+        // Calculate revenue per occupied space
+        double revenuePerOccupiedSpace = campingCenterService.calculateRevenuePerOccupiedSpace();
+
+        // Expected values
+        double totalRevenue = 1000 + 1500 + 3000;
+        int totalOccupiedSpaces = 10 * 10 + 5 * 15 + 20 * 20; // numberReserved * campingPeriodInDays
+
+        double expectedRevenuePerOccupiedSpace = totalRevenue / totalOccupiedSpaces;
     }
 
 }
