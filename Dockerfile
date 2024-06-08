@@ -6,5 +6,5 @@ RUN mvn clean install -DskipTests
 FROM openjdk:17
 WORKDIR /app
 COPY --from=builder /app/target/*.jar ./app.jar
-EXPOSE 8091
+EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]
