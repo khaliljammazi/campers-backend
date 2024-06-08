@@ -128,6 +128,7 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
             <scope>runtime</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -251,4 +252,6 @@
             </build>
         </profile>
     </profiles>
+
 </project>
+
