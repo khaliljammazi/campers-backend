@@ -30,4 +30,6 @@ public class Comment implements Serializable {
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)
     private Post post;
+
+
 }

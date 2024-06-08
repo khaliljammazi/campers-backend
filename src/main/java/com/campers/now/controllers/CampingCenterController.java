@@ -20,13 +20,12 @@ public class CampingCenterController {
     private final CampingCenterService campingCenterService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void add(@RequestBody CampingCenter campingCenter) {
         campingCenterService.add(campingCenter);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     public CampingCenter update(@RequestBody CampingCenter campingCenter, @PathVariable("id") Integer id) {
         campingCenter.setId(id);
         return campingCenterService.update(campingCenter);
@@ -51,7 +50,7 @@ public class CampingCenterController {
     public CampingCenter addActivitybyCampingcenterId(@RequestParam("campingcenterId") Integer campingcenterId,  @RequestParam("activityId") Integer activityId) {
         return campingCenterService.addActivitybyCampingcenterId(campingcenterId, activityId);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @GetMapping("calculateOccupancyRate")
     public double[] calculateOccupancyRate(){
         return campingCenterService.calculateOccupancyRate();
