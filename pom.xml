@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.campers</groupId>
     <artifactId>now</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>Camping bois</name>
     <description>Camping bois</description>
     <properties>
