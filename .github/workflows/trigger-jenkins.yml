@@ -1,0 +1,20 @@
+name: Trigger Jennkins
+
+on:
+  push:
+    branches:
+      - ghassen
+jobs:
+    trigger-a-jenkins-job:
+      runs-on: ubuntu-latest
+      steps:
+        - id: triggerjenkinsjob
+          uses: mickeygoussetorg/trigger-jenkins-job@v1
+          with:
+            jenkins-server:  "https://1a99-41-230-72-168.ngrok-free.app"
+            jenkins-job: "devops_project"
+            jenkins-username: admin
+            jenkins-pat: 110c5da7e415e4499270c8dca896545242
+            poll-time: 10
+            timeout-value: 600 
+            verbose: false
